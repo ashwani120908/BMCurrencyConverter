@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BM Currency Converter</string>
+    <string name="from">From</string>
+    <string name="details">Details</string>
+
+    <string-array name="your_string_array">
+        <item>Hint...</item>
+        <item>Item1</item>
+        <item>Item2</item>
+        <item>Item3</item>
+    </string-array>
+
 </resources>
