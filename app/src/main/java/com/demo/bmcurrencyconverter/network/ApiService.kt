@@ -1,7 +1,6 @@
 package com.demo.bmcurrencyconverter.network
 
 import com.demo.bmcurrencyconverter.models.LatestRates
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
