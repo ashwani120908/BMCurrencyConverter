@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("latest")
-    suspend fun getLatestRates(@Query("apikey") key: String): Call<LatestRates?>
+    suspend fun getLatestRates(@Query("apikey") key: String): LatestRates?
 
 }
