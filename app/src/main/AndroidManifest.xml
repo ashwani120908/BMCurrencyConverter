@@ -14,6 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BMCurrencyConverter">
         <activity
+            android:name=".ui.DetailsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

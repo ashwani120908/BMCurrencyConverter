@@ -1,5 +1,6 @@
 package com.demo.bmcurrencyconverter.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,7 +20,9 @@ import androidx.lifecycle.Observer
 import com.demo.bmcurrencyconverter.R
 import com.demo.bmcurrencyconverter.databinding.ActivityMainBinding
 import com.demo.bmcurrencyconverter.models.LatestRates
+import com.demo.bmcurrencyconverter.utils.Constants
 import com.demo.bmcurrencyconverter.utils.Status
+import com.demo.bmcurrencyconverter.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -153,7 +156,13 @@ class MainActivity : AppCompatActivity() {
             calculateCurrency()
         }
 
-
+        dataBinding.detailsButton.setOnClickListener {
+            var intent: Intent = Intent(this, DetailsActivity::class.java)
+            intent.putExtra(Constants.KEY_FROM_CURRENCY, fromSpinner.selectedItem.toString())
+            intent.putExtra(Constants.KEY_TO_CURRENCY, fromSpinner.selectedItem.toString())
+            intent.putExtra(Constants.KEY_All_CURRENCY, viewModel.allCurrencies)
+            startActivity(intent)
+        }
     }
 
     private fun addTextWatchers() {
@@ -177,10 +186,11 @@ class MainActivity : AppCompatActivity() {
         fromEt.removeTextChangedListener(textWatcher)
         if (fromSpinner.selectedItem != null && fromSpinner.selectedItem != null) {
             toEt.setText(
-                viewModel.convert(
+                Utils.convertCurrency(
                     fromEt.text.toString(),
                     fromSpinner.selectedItem.toString(),
-                    toSpinner.selectedItem.toString()
+                    toSpinner.selectedItem.toString(),
+                    viewModel.allCurrencies
                 )
             )
             addTextWatchers()

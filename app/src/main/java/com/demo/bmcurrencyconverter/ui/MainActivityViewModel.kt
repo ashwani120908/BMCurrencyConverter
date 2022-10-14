@@ -38,15 +38,4 @@ class MainActivityViewModel @Inject constructor(
         setSpinnerData.value = true
 
     }
-
-    fun convert(s: String, fromCurrency: String, toCurrency: String): String {
-        if (s.isNotEmpty() && s != "0") {
-            val amount: Double = s.toDouble()
-            val eurBasedRateOfFromCurrency: Double = allCurrencies[fromCurrency]!!
-            val eurBasedRateofToCurrency: Double = allCurrencies[toCurrency]!!
-            val convertedAmount = amount / eurBasedRateOfFromCurrency * eurBasedRateofToCurrency
-            Log.e("TAG", convertedAmount.toString())
-            return String.format("%.6f", convertedAmount)
-        } else return "0"
-    }
 }
