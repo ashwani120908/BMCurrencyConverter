@@ -1,7 +1,9 @@
 package com.demo.bmcurrencyconverter.network
 
+import javax.inject.Inject
 
-class MainRepository(private val apiHelper: ApiHelper) {
+
+class MainRepository @Inject constructor(private val apiHelper: ApiHelper) {
 
     suspend fun getLatestRates() = apiHelper.getLatestRates()
 }

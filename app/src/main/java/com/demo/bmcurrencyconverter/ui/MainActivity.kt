@@ -9,25 +9,23 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.demo.bmcurrencyconverter.R
 import com.demo.bmcurrencyconverter.databinding.ActivityMainBinding
 import com.demo.bmcurrencyconverter.models.LatestRates
-import com.demo.bmcurrencyconverter.network.ApiHelper
-import com.demo.bmcurrencyconverter.network.RetrofitBuilder
-import com.demo.bmcurrencyconverter.ui.base.ViewModelFactory
 import com.demo.bmcurrencyconverter.utils.Status
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainActivityViewModel
+    private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var dataBinding: ActivityMainBinding
     private lateinit var progressBar: ProgressBar
     private lateinit var fromSpinner: AppCompatSpinner
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        setupViewModel()
         setupUI()
         getLatestRates()
     }
@@ -74,14 +71,6 @@ class MainActivity : AppCompatActivity() {
         toSpinner.setSelection(viewModel.allCurrencies.keys.indexOf("AED"))
         fromEt.setText("1")
         toEt.setText(viewModel.allCurrencies.get("AED").toString())
-    }
-
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(MainActivityViewModel::class.java)
     }
 
     private fun setupUI() {
@@ -121,8 +110,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-
-
         fromSpinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 

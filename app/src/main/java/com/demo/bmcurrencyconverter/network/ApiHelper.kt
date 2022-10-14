@@ -1,8 +1,8 @@
 package com.demo.bmcurrencyconverter.network
 
-class ApiHelper(private val apiService: ApiService) {
+import com.demo.bmcurrencyconverter.models.LatestRates
 
-    val ACCESS_KEY = "k99Smh0iJPfjU79ioXZBWGnB4kuyZamv"
+interface ApiHelper {
 
-    suspend fun getLatestRates() = apiService.getLatestRates(ACCESS_KEY)
+    suspend fun getLatestRates(): LatestRates
 }
