@@ -9,7 +9,7 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
     companion object {
         const val BASE_URL = "https://api.apilayer.com/fixer/"
 
-        const val ACCESS_KEY = "qvWzL088DaziU5XiUcmhW5SncF5TYcHS"
+        const val ACCESS_KEY = "UBPmX3iNFtaHzviNyAj72RSkSbSV6gKq"
     }
 
     override suspend fun getLatestRates(): LatestRates =

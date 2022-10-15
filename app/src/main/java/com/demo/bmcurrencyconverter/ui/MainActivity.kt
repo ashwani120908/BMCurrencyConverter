@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
     private lateinit var dataBinding: ActivityMainBinding
-    private lateinit var progressBar: ProgressBar
     private lateinit var fromSpinner: AppCompatSpinner
     private lateinit var toSpinner: AppCompatSpinner
     private lateinit var switchButtonIv: AppCompatImageView
@@ -54,15 +52,19 @@ class MainActivity : AppCompatActivity() {
                 Log.i("data", "data:" + response.data.toString())
                 when (response.status) {
                     Status.SUCCESS -> {
-                        progressBar.visibility = View.GONE
+
+                        dataBinding.progressBar.visibility = View.GONE
+                        dataBinding.progressBarFl.visibility = View.GONE
                         response.data?.let { latestRates -> onLatestRatesRecieved(latestRates) }
                     }
                     Status.ERROR -> {
-                        progressBar.visibility = View.GONE
+                        dataBinding.progressBar.visibility = View.GONE
+                        dataBinding.progressBarFl.visibility = View.GONE
                         Log.e("TAG", it.message.toString())
                     }
                     Status.LOADING -> {
-                        progressBar.visibility = View.VISIBLE
+                        dataBinding.progressBar.visibility = View.VISIBLE
+                        dataBinding.progressBarFl.visibility = View.VISIBLE
                     }
                 }
             }
@@ -77,7 +79,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        progressBar = dataBinding.progressBar
         fromSpinner = dataBinding.fromSpinner
         toSpinner = dataBinding.toSpinner
         switchButtonIv = dataBinding.switchIv

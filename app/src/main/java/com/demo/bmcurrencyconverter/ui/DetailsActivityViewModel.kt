@@ -3,17 +3,17 @@ package com.demo.bmcurrencyconverter.ui
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.demo.bmcurrencyconverter.models.HistoryData
 import com.demo.bmcurrencyconverter.network.MainRepository
 import com.demo.bmcurrencyconverter.utils.NetworkHelper
 import com.demo.bmcurrencyconverter.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
 
 @HiltViewModel
 class DetailsActivityViewModel @Inject constructor(
@@ -23,6 +23,7 @@ class DetailsActivityViewModel @Inject constructor(
 
     var historyData: MutableLiveData<List<String>> = MutableLiveData<List<String>>()
     val dates: MutableList<String> = mutableListOf()
+    val rates: MutableList<Double> = mutableListOf()
     lateinit var allCurrencies: LinkedHashMap<String, Double>
     lateinit var fromCurrency: String
     lateinit var toCurrency: String
@@ -31,19 +32,16 @@ class DetailsActivityViewModel @Inject constructor(
         setLastThreeDates()
         val list: MutableList<String> = mutableListOf<String>()
         if (networkHelper.isNetworkConnected()) {
-            GlobalScope.launch {
-                val historyData0 = async(Dispatchers.IO) { mainRepository.getHistoryData(dates[0]) }
-                val historyData1 = async(Dispatchers.IO) { mainRepository.getHistoryData(dates[1]) }
-                val historyData2 = async(Dispatchers.IO) { mainRepository.getHistoryData(dates[2]) }
-
-                list.add(" Date - ${dates.get(0)} \n 1 $fromCurrency = $toCurrency ${Utils.convertCurrency("1", fromCurrency, toCurrency, LinkedHashMap(historyData0.await().rates))}")
-                list.add(" Date - ${dates.get(1)} \n 1 $fromCurrency = $toCurrency ${Utils.convertCurrency("1", fromCurrency, toCurrency, LinkedHashMap(historyData1.await().rates))}")
-                list.add(" Date - ${dates.get(2)} \n 1 $fromCurrency = $toCurrency ${Utils.convertCurrency("1", fromCurrency, toCurrency, LinkedHashMap(historyData2.await().rates))}")
+            GlobalScope.async {
+                for (date in dates) {
+                    val historyData = withContext(Dispatchers.IO) { mainRepository.getHistoryData(date) }
+                    val rate = Utils.convertCurrency("1", fromCurrency, toCurrency, LinkedHashMap(historyData.rates))
+                    list.add(" Date - ${date} \n 1 $fromCurrency = $toCurrency $rate")
+                    rates.add(rate.toDouble())
+                }
+                historyData.postValue(list)
             }
-            historyData.value = list
-            Log.e("tag",historyData.toString())
         }
-        setLastThreeDates()
     }
 
     fun getPopularCurrencyList(): MutableList<String> {
@@ -63,7 +61,6 @@ class DetailsActivityViewModel @Inject constructor(
 
     private fun setLastThreeDates(): List<String> {
         val sdf = SimpleDateFormat("YYYY-MM-dd")
-
         dates.add(sdf.format(getDaysAgo(0)))
         dates.add(sdf.format(getDaysAgo(1)))
         dates.add(sdf.format(getDaysAgo(2)))
