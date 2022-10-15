@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         dataBinding.detailsButton.setOnClickListener {
             var intent: Intent = Intent(this, DetailsActivity::class.java)
             intent.putExtra(Constants.KEY_FROM_CURRENCY, fromSpinner.selectedItem.toString())
-            intent.putExtra(Constants.KEY_TO_CURRENCY, fromSpinner.selectedItem.toString())
+            intent.putExtra(Constants.KEY_TO_CURRENCY, toSpinner.selectedItem.toString())
             intent.putExtra(Constants.KEY_All_CURRENCY, viewModel.allCurrencies)
             startActivity(intent)
         }

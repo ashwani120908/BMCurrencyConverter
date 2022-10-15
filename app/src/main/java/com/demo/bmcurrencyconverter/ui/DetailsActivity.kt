@@ -1,10 +1,11 @@
 package com.demo.bmcurrencyconverter.ui
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demo.bmcurrencyconverter.R
 import com.demo.bmcurrencyconverter.databinding.ActivityDetailsBinding
@@ -26,6 +27,19 @@ class DetailsActivity : AppCompatActivity() {
 
         getIntentData()
         setupUI()
+        observeLiveData()
+        viewModel.getHistoryData()
+    }
+
+    private fun observeLiveData() {
+
+        viewModel.historyData.observe(this, Observer {
+            if (it != null) {
+                dataBinding.historicalDataRv.layoutManager = LinearLayoutManager(this)
+                dataBinding.historicalDataRv.adapter = ListAdapter(it)
+            }
+        })
+
     }
 
     private fun getIntentData() {
@@ -38,7 +52,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun setupUI() {
         dataBinding.otherCurrenciesRv.layoutManager = LinearLayoutManager(this)
-        dataBinding.otherCurrenciesRv.adapter = ListAdapter(viewModel.getPopularcurrencyList())
+        dataBinding.otherCurrenciesRv.adapter = ListAdapter(viewModel.getPopularCurrencyList())
 
     }
 }

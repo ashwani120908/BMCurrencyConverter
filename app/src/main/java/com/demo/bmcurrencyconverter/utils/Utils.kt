@@ -1,7 +1,5 @@
 package com.demo.bmcurrencyconverter.utils
 
-import android.util.Log
-
 class Utils {
 
     companion object {
@@ -17,7 +15,6 @@ class Utils {
                 val eurBasedRateOfFromCurrency: Double = allCurrencies[fromCurrency]!!
                 val eurBasedRateofToCurrency: Double = allCurrencies[toCurrency]!!
                 val convertedAmount = amountDouble / eurBasedRateOfFromCurrency * eurBasedRateofToCurrency
-                Log.e("TAG", convertedAmount.toString())
                 String.format("%.6f", convertedAmount)
             } else "0"
         }
