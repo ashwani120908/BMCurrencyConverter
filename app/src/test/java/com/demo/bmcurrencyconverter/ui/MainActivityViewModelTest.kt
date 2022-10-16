@@ -1,7 +1,5 @@
 package com.demo.bmcurrencyconverter.ui
 
-import android.content.Context
-import androidx.arch.core.executor.testing.CountingTaskExecutorRule
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import com.demo.bmcurrencyconverter.models.LatestRates

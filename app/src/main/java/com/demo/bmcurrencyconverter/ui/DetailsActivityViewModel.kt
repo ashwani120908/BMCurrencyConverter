@@ -1,6 +1,5 @@
 package com.demo.bmcurrencyconverter.ui
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.demo.bmcurrencyconverter.network.MainRepository
@@ -59,12 +58,11 @@ class DetailsActivityViewModel @Inject constructor(
         return list
     }
 
-    private fun setLastThreeDates(): List<String> {
+    fun setLastThreeDates(): List<String> {
         val sdf = SimpleDateFormat("YYYY-MM-dd")
         dates.add(sdf.format(getDaysAgo(0)))
         dates.add(sdf.format(getDaysAgo(1)))
         dates.add(sdf.format(getDaysAgo(2)))
-        Log.e("date", dates.toString())
         return dates
     }
 
