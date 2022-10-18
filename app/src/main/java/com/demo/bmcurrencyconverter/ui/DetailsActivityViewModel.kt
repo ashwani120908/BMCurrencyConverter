@@ -21,6 +21,7 @@ class DetailsActivityViewModel @Inject constructor(
 ) : ViewModel() {
 
     var historyData: MutableLiveData<List<String>> = MutableLiveData<List<String>>()
+    var networkError: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val dates: MutableList<String> = mutableListOf()
     val rates: MutableList<Double> = mutableListOf()
     lateinit var allCurrencies: LinkedHashMap<String, Double>
@@ -40,6 +41,8 @@ class DetailsActivityViewModel @Inject constructor(
                 }
                 historyData.postValue(list)
             }
+        } else {
+            networkError.postValue(true)
         }
     }
 

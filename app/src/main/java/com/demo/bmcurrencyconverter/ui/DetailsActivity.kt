@@ -2,6 +2,7 @@ package com.demo.bmcurrencyconverter.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -43,6 +44,7 @@ class DetailsActivity : AppCompatActivity() {
         viewModel.historyData.observe(this, Observer {
             if (it != null) {
                 val adapter = ListAdapter(it)
+
                 dataBinding.historicalDataRv.layoutManager = LinearLayoutManager(this)
                 dataBinding.historicalDataRv.adapter = adapter
                 adapter.notifyDataSetChanged()
@@ -50,7 +52,9 @@ class DetailsActivity : AppCompatActivity() {
                 dataBinding.progressBarFl.visibility = View.GONE
             }
         })
-
+        viewModel.networkError.observe(this) {
+            Toast.makeText(this, "Network Connection Issue!", Toast.LENGTH_LONG)
+        }
     }
 
     private fun setGraphView() {
