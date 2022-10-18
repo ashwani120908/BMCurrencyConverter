@@ -53,7 +53,7 @@ class DetailsActivity : AppCompatActivity() {
             }
         })
         viewModel.networkError.observe(this) {
-            Toast.makeText(this, "Network Connection Issue!", Toast.LENGTH_LONG)
+            Toast.makeText(this, "Network Connection Issue!", Toast.LENGTH_LONG).show()
         }
     }
 

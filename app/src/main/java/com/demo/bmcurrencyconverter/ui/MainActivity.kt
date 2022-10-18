@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLatestRates() {
         viewModel.networkError.observe(this) {
-            Toast.makeText(this, "Network Connection Issue!", Toast.LENGTH_LONG)
+            Toast.makeText(this, "Network Connection Issue!", Toast.LENGTH_LONG).show()
         }
         viewModel.getLatestRates().observe(this, Observer {
             it?.let { response ->
