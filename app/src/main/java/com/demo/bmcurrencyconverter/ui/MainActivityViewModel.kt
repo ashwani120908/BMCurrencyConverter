@@ -18,7 +18,7 @@ class MainActivityViewModel @Inject constructor(
 
     lateinit var allCurrencies: LinkedHashMap<String, Double>
     val setSpinnerData = MutableLiveData<Boolean>()
-    private val noNetworkError = MutableLiveData<Boolean>()
+    var networkError: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
 
     fun getLatestRates() = liveData(Dispatchers.IO) {
         if (networkHelper.isNetworkConnected()) {
@@ -29,7 +29,7 @@ class MainActivityViewModel @Inject constructor(
                 emit(Response.error(data = null, message = exception.message ?: "Error Occurred!"))
             }
         } else {
-            noNetworkError.postValue(true)
+            networkError.postValue(true)
         }
     }
 

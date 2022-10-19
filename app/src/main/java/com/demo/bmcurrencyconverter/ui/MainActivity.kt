@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -46,6 +47,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLatestRates() {
+        viewModel.networkError.observe(this) {
+            Toast.makeText(this, "Network Connection Issue!", Toast.LENGTH_LONG).show()
+        }
         viewModel.getLatestRates().observe(this, Observer {
             it?.let { response ->
                 Log.i("status", response.status.toString())
